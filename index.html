@@ -197,6 +197,32 @@ input[type=text],input[type=password]{
   display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;
 }
 .disclaimer{color:var(--muted);font-size:clamp(12px,0.4vw + 10px,13px);margin:0;max-width:60ch;}
+.print-meta,.print-url{display:none;}
+@media print{
+  @page{margin:14mm;}
+  body{background:#fff;color:#000;display:block;font-size:11pt;
+       -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  main{padding:0;}
+  .wrap{max-width:none;}
+  .app-header{background:#fff;border-bottom:1px solid #999;padding:0 0 8px;}
+  .header-actions,#viewInput,#viewFailure,.overlay,#viewResult .row,.app-footer .portal-link{display:none !important;}
+  .print-meta{display:block;color:#444;font-size:10pt;margin:10px 0 2px;}
+  .situation-echo{font-size:14pt;margin-bottom:10px;}
+  .bullseye-wrap{padding:0 0 8px;}
+  .bullseye{width:250px;}
+  .legend,.cards{grid-template-columns:repeat(3,1fr);gap:8px;}
+  .legend-item,.bucket-card,.card{background:#fff;border:1px solid #bbb;
+       break-inside:avoid;page-break-inside:avoid;}
+  .legend-num{font-size:24pt;}
+  .item{break-inside:avoid;page-break-inside:avoid;}
+  .check{width:auto;height:auto;margin:0 8px 0 0;}
+  .check .box{width:11px;height:11px;border-color:#555;}
+  .item.done .check .box{background:var(--c-control);}
+  .step{margin-left:19px;color:#444;}
+  .app-footer{background:#fff;border-top:1px solid #999;margin-top:14px;padding:8px 0 0;}
+  .disclaimer{color:#444;font-size:9pt;max-width:none;}
+  .print-url{display:block;color:#444;font-size:9pt;}
+}
 @media (max-width:600px){
   .legend{grid-template-columns:1fr;}
   .cards{grid-template-columns:1fr;}
@@ -245,6 +271,7 @@ input[type=text],input[type=password]{
     <section class="view" id="viewResult" hidden>
       <div class="row" style="margin-bottom:14px;">
         <button class="btn" id="btnBack">Back</button>
+        <button class="btn" id="btnPrint">Print</button>
       </div>
       <div id="resultRoot"></div>
     </section>
@@ -286,6 +313,7 @@ input[type=text],input[type=password]{
 
 <footer class="app-footer">
   <a class="portal-link" href="https://augustineiacopelli.github.io/appaday/">AppADay Portfolio</a>
+  <span class="print-url">augustineiacopelli.github.io/appaday-130-locus-of-control</span>
   <p class="disclaimer">This is a self reflection tool, not therapy. It does not diagnose anything and it is no substitute for talking with a professional or someone who knows you.</p>
 </footer>
 
@@ -593,7 +621,11 @@ function renderCards(entry){
 function renderResult(entry){
   currentEntry = entry;
   var root = byId('resultRoot');
+  var stamp = new Date(entry.timestamp || Date.now());
+  var session = safeGet(K_SESSION, '');
   root.innerHTML =
+    '<p class="print-meta">Locus of Control, sorted ' + esc(stamp.toLocaleDateString()) +
+      (session ? ', ' + esc(session) : '') + '</p>' +
     '<p class="situation-echo">' + esc(entry.situation) + '</p>' +
     renderBullseye(entry) +
     renderLegend(entry) +
@@ -798,6 +830,7 @@ function analyze(){
 }
 
 byId('btnAnalyze').addEventListener('click', analyze);
+byId('btnPrint').addEventListener('click', function(){ window.print(); });
 byId('btnBack').addEventListener('click', function(){ renderHistory(); showView('input'); });
 byId('btnFailBack').addEventListener('click', function(){ showView('input'); });
 byId('btnRetry').addEventListener('click', function(){ showView('input'); analyze(); });
