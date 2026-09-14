@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AppADay 130 - Locus of Control</title>
+<meta name="description" content="Describe a situation and see it sorted into what you control, what you might influence, and what you do not control, with a weighted bullseye and a first step for every piece.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Locus of Control - AppADay 130">
+<meta property="og:description" content="Describe a situation and see it sorted into what you control, what you might influence, and what you do not control, with a weighted bullseye and a first step for every piece.">
+<meta property="og:url" content="https://augustineiacopelli.github.io/appaday-130-locus-of-control/">
+<meta property="og:image" content="https://augustineiacopelli.github.io/appaday-130-locus-of-control/og-image.png?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Locus of Control - a weighted bullseye of what you control">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Locus of Control - AppADay 130">
+<meta name="twitter:description" content="Sort any situation into what you control, what you might influence, and what you do not control.">
+<meta name="twitter:image" content="https://augustineiacopelli.github.io/appaday-130-locus-of-control/og-image.png?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c-control:#1f7a5a;
+  --c-influence:#c07c22;
+  --c-none:#66788a;
+  --ink:#1a1d20;
+  --muted:#6c737c;
+  --bg:#f5f2ec;
+  --surface:#ffffff;
+  --line:#e4dfd5;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-size:clamp(15px,1.1vw + 12px,17px);
+  line-height:1.55;
+}
+h1,h2,h3{font-family:'Fraunces','Georgia',serif;font-weight:700;margin:0;line-height:1.15;}
+.app-header{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px clamp(14px,3vw,28px);
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+}
+.title-text .app-num{
+  display:block;font-size:clamp(11px,0.5vw + 9px,12px);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;
+}
+.title-text h1{font-size:clamp(20px,2.4vw + 12px,30px);}
+.header-actions{display:flex;align-items:center;gap:8px;}
+.icon-btn{
+  min-width:44px;min-height:44px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;border:1px solid var(--line);border-radius:10px;
+  color:var(--ink);cursor:pointer;padding:0 10px;
+}
+.icon-btn:hover{background:#f0ece3;}
+.icon-btn svg{width:20px;height:20px;fill:currentColor;}
+.portal-link{
+  min-height:44px;display:inline-flex;align-items:center;
+  padding:0 12px;border-radius:10px;
+  font-size:clamp(13px,0.5vw + 11px,14px);font-weight:600;
+  color:var(--ink);text-decoration:none;border:1px solid var(--line);
+}
+.portal-link:hover{background:#f0ece3;}
+main{
+  flex:1 1 auto;width:100%;
+  padding:clamp(16px,3vw,32px) clamp(14px,3vw,28px) 40px;
+}
+.wrap{max-width:900px;margin-left:auto;margin-right:auto;}
+.view[hidden]{display:none;}
+.card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:clamp(16px,2.4vw,24px);
+}
+.lede{color:var(--muted);margin:8px 0 18px;font-size:clamp(14px,0.6vw + 12px,16px);}
+label.field-label{display:block;font-weight:600;margin-bottom:8px;}
+textarea{
+  width:100%;min-height:150px;resize:vertical;
+  font-family:inherit;font-size:inherit;line-height:1.5;color:var(--ink);
+  padding:12px;border:1px solid var(--line);border-radius:10px;background:#fdfcfa;
+}
+textarea:focus,input:focus{outline:2px solid var(--c-control);outline-offset:1px;}
+input[type=text],input[type=password]{
+  width:100%;min-height:44px;padding:10px 12px;
+  font-family:inherit;font-size:inherit;color:var(--ink);
+  border:1px solid var(--line);border-radius:10px;background:#fdfcfa;
+}
+.btn{
+  min-height:44px;padding:0 18px;border-radius:11px;cursor:pointer;
+  font-family:inherit;font-size:inherit;font-weight:600;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);
+}
+.btn:hover{background:#f0ece3;}
+.btn.primary{background:var(--c-control);border-color:var(--c-control);color:#fff;}
+.btn.primary:hover{background:#1a6a4e;}
+.btn.danger{border-color:#b33a3a;color:#b33a3a;background:var(--surface);}
+.btn:disabled{opacity:.55;cursor:default;}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+.hint{color:var(--muted);font-size:clamp(12px,0.4vw + 11px,13px);margin:12px 0 0;}
+.situation-echo{
+  font-family:'Fraunces',Georgia,serif;font-size:clamp(17px,1.2vw + 13px,21px);
+  line-height:1.4;margin:0 0 16px;
+}
+.bullseye-wrap{display:flex;justify-content:center;padding:4px 0 10px;}
+.bullseye{width:min(100%,340px);height:auto;}
+.bullseye text{font-family:'Inter',sans-serif;font-weight:600;fill:#fff;}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px;}
+.legend-item{
+  background:var(--surface);border:1px solid var(--line);
+  border-left:5px solid var(--line);border-radius:12px;padding:12px 14px;
+}
+.legend-num{
+  font-family:'Fraunces',Georgia,serif;font-weight:700;
+  font-size:clamp(30px,4.6vw + 12px,46px);line-height:1;display:block;
+}
+.legend-label{display:block;font-weight:600;font-size:clamp(13px,0.5vw + 11px,14px);margin-top:4px;}
+.legend-count{display:block;color:var(--muted);font-size:clamp(12px,0.4vw + 10px,13px);}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}
+.bucket-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:14px;border-top:5px solid var(--line);
+}
+.bucket-card h3{font-size:clamp(15px,0.7vw + 13px,17px);margin-bottom:10px;}
+.item{border-top:1px solid var(--line);padding:10px 0 4px;}
+.item:first-of-type{border-top:0;}
+.item-head{display:flex;gap:10px;align-items:flex-start;}
+.check{
+  flex:0 0 auto;width:44px;height:44px;margin:-10px 0 0 -10px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;border:0;cursor:pointer;color:var(--muted);
+}
+.check .box{width:20px;height:20px;border:2px solid var(--muted);border-radius:6px;display:block;}
+.item.done .check .box{background:var(--c-control);border-color:var(--c-control);}
+.item.done .item-text{text-decoration:line-through;color:var(--muted);}
+.item-text{font-weight:600;padding-top:1px;}
+.step{margin:2px 0 0 34px;color:var(--muted);font-size:clamp(13px,0.5vw + 11px,14px);}
+.step b{color:var(--ink);font-weight:600;}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:34px 0 12px;}
+.section-head h2{font-size:clamp(18px,1vw + 14px,22px);}
+.trend{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+}
+.trend p{margin:0;font-size:clamp(13px,0.5vw + 11px,15px);}
+.spark{flex:0 0 auto;}
+.worry{
+  margin-top:10px;background:#fbf5e9;border:1px solid #ecd9b4;border-radius:12px;padding:12px 14px;
+}
+.worry p{margin:0 0 6px;font-weight:600;}
+.worry ul{margin:0;padding-left:20px;color:var(--muted);}
+.entry{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;margin-bottom:10px;
+}
+.entry-top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+.entry-meta{color:var(--muted);font-size:clamp(12px,0.4vw + 10px,13px);}
+.entry-text{margin:4px 0 10px;font-weight:500;}
+.entry-pill{
+  display:inline-block;padding:3px 10px;border-radius:999px;
+  background:#eef4f1;color:var(--c-control);font-weight:600;
+  font-size:clamp(12px,0.4vw + 10px,13px);
+}
+.confirm{
+  margin-top:10px;padding:10px 12px;border-radius:10px;
+  background:#fdf1f1;border:1px solid #edc9c9;
+}
+.confirm p{margin:0 0 8px;font-size:clamp(13px,0.5vw + 11px,14px);}
+.overlay{
+  position:fixed;inset:0;background:rgba(24,26,28,.5);
+  display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;z-index:20;
+}
+.overlay[hidden]{display:none;}
+.modal{
+  background:var(--surface);border-radius:16px;padding:20px;
+  width:min(100%,440px);border:1px solid var(--line);
+}
+.modal h2{font-size:clamp(18px,1vw + 14px,22px);margin-bottom:6px;}
+.modal .field{margin-top:14px;}
+.key-state{font-size:clamp(12px,0.4vw + 11px,13px);color:var(--muted);margin-top:6px;}
+.modal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.spinner-note{color:var(--muted);margin-left:4px;}
+.failure{border-left:5px solid #b33a3a;}
+.app-footer{
+  border-top:1px solid var(--line);background:var(--surface);
+  padding:16px clamp(14px,3vw,28px);
+  display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+}
+.disclaimer{color:var(--muted);font-size:clamp(12px,0.4vw + 10px,13px);margin:0;max-width:60ch;}
+@media (max-width:600px){
+  .legend{grid-template-columns:1fr;}
+  .cards{grid-template-columns:1fr;}
+  .legend-num{font-size:clamp(26px,7vw,34px);}
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="title-text">
+    <span class="app-num">AppADay 130</span>
+    <h1>Locus of Control</h1>
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" id="btnSettings" title="Settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 6.2A2.2 2.2 0 1 1 12 9.8a2.2 2.2 0 0 1 0 4.4zM20 12c0-.5 0-1-.1-1.4l1.9-1.4-2-3.4-2.2 1a7.6 7.6 0 0 0-2.4-1.4L14.8 3H9.2l-.4 2.4c-.9.3-1.7.8-2.4 1.4l-2.2-1-2 3.4 1.9 1.4a8.6 8.6 0 0 0 0 2.8l-1.9 1.4 2 3.4 2.2-1c.7.6 1.5 1.1 2.4 1.4l.4 2.4h5.6l.4-2.4c.9-.3 1.7-.8 2.4-1.4l2.2 1 2-3.4-1.9-1.4c.1-.4.1-.9.1-1.4z"></path></svg>
+    </button>
+    <a class="portal-link" href="https://augustineiacopelli.github.io/appaday/">AppADay</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <section class="view" id="viewInput">
+      <div class="card">
+        <h2>What is sitting on you right now?</h2>
+        <p class="lede">Write it out the way you would say it to a friend. It gets sorted into what you actually control, what you might influence, and what is not yours to carry.</p>
+        <label class="field-label" for="situation">The situation</label>
+        <textarea id="situation" placeholder="My department review is in three weeks, my best staff member just gave notice, and I have no idea whether the budget survives the next cycle."></textarea>
+        <div class="row" style="margin-top:14px;">
+          <button class="btn primary" id="btnAnalyze">Sort it out</button>
+          <span class="spinner-note" id="analyzeNote" hidden>Thinking this through...</span>
+        </div>
+        <p class="hint" id="keyHint"></p>
+      </div>
+
+      <div class="section-head">
+        <h2>History</h2>
+        <span class="entry-meta" id="sessionTag"></span>
+      </div>
+      <div id="historyRoot"></div>
+    </section>
+
+    <section class="view" id="viewResult" hidden>
+      <div class="row" style="margin-bottom:14px;">
+        <button class="btn" id="btnBack">Back</button>
+      </div>
+      <div id="resultRoot"></div>
+    </section>
+
+    <section class="view" id="viewFailure" hidden>
+      <div class="card failure">
+        <h2>That did not go through</h2>
+        <p class="lede" id="failureMessage"></p>
+        <div class="row">
+          <button class="btn primary" id="btnRetry">Retry</button>
+          <button class="btn" id="btnFailBack">Back to the text</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="overlay" id="settingsOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <h2 id="settingsTitle">Settings</h2>
+    <p class="lede" style="margin-bottom:0;">Your key stays in this browser only. It is never sent anywhere except directly to Anthropic.</p>
+    <div class="field">
+      <label class="field-label" for="apiKeyInput">Anthropic API key</label>
+      <input type="password" id="apiKeyInput" autocomplete="off" placeholder="sk-ant-...">
+      <p class="key-state" id="keyState"></p>
+    </div>
+    <div class="field">
+      <label class="field-label" for="sessionInput">Session name</label>
+      <input type="text" id="sessionInput" autocomplete="off" placeholder="Fall semester">
+    </div>
+    <div class="modal-actions">
+      <button class="btn primary" id="btnSaveSettings">Save</button>
+      <button class="btn danger" id="btnClearKey">Clear key</button>
+      <button class="btn" id="btnCloseSettings">Close</button>
+    </div>
+  </div>
+</div>
+
+<footer class="app-footer">
+  <a class="portal-link" href="https://augustineiacopelli.github.io/appaday/">AppADay Portfolio</a>
+  <p class="disclaimer">This is a self reflection tool, not therapy. It does not diagnose anything and it is no substitute for talking with a professional or someone who knows you.</p>
+</footer>
+
+<script>
+var CLAUDE_MODEL = 'claude-sonnet-5';
+var API_URL = 'https://api.anthropic.com/v1/messages';
+var K_KEY = 'locus.apiKey';
+var K_SESSION = 'locus.sessionName';
+var K_ENTRIES = 'locus.entries';
+
+var BUCKETS = [
+  { key:'isInControl',    label:'In my control',      cssVar:'--c-control',   suggestion:'First step' },
+  { key:'mightInfluence', label:'I might influence',  cssVar:'--c-influence', suggestion:'Lever to try' },
+  { key:'isNotInControl', label:'Not in my control',  cssVar:'--c-none',      suggestion:'Practice' }
+];
+
+var SYSTEM_PROMPT = [
+  'You are a calm, practical reflection guide working strictly inside the circle of control framing.',
+  'The person describes a situation. You sort its parts into exactly three buckets: what is fully in their control, what they might influence but do not decide, and what is not in their control at all.',
+  '',
+  'Rules you must follow:',
+  '1. Never use diagnostic or clinical language. Do not name conditions, do not assess mental health, do not imply pathology.',
+  '2. Never dismiss or minimize feelings about the uncontrollable bucket. Do not tell the person it does not matter, do not tell them to stop worrying, do not wave it away as simply out of their hands. Grief, fear, and anger about things they cannot control are legitimate and are treated as such.',
+  '3. Every item carries a step, and the kind of step depends on the bucket. For isInControl the step is a small, concrete first move that could be started today, specific enough to picture. For mightInfluence the step is one concrete attempt at influence, worded so the outcome stays genuinely open. For isNotInControl the step is a practice of acceptance, release, or attention shifting: something to name, set down, grieve, or turn toward instead. Never hand an uncontrollable item an action step that pretends it is controllable.',
+  '4. Assign the three weights by significance and emotional weight within the situation, not by how many items landed in each bucket. One crushing uncontrollable fact can outweigh six small controllable chores. The weights are integers and must sum to exactly 100.',
+  '5. Use the person own words and details where you can. Write in second person, plain language, no jargon, one sentence per field.',
+  '',
+  'Return raw JSON only. No preamble, no explanation, no code fences. Use exactly this shape:',
+  '{ "isInControl": [{"item": "...", "step": "..."}], "mightInfluence": [{"item": "...", "step": "..."}], "isNotInControl": [{"item": "...", "step": "..."}], "weights": {"isInControl": 0, "mightInfluence": 0, "isNotInControl": 0} }'
+].join('\n');
+
+var currentEntry = null;
+var lastSituation = '';
+
+function safeGet(key, fallback){
+  try {
+    var v = window.localStorage.getItem(key);
+    return (v === null || v === undefined) ? fallback : v;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function safeSet(key, value){
+  try {
+    window.localStorage.setItem(key, value);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function safeRemove(key){
+  try { window.localStorage.removeItem(key); } catch (e) {}
+}
+
+function loadEntries(){
+  var raw = safeGet(K_ENTRIES, '[]');
+  var arr;
+  try { arr = JSON.parse(raw); } catch (e) { arr = []; }
+  if (!Array.isArray(arr)) { arr = []; }
+  return arr;
+}
+
+function saveEntries(arr){
+  try { safeSet(K_ENTRIES, JSON.stringify(arr)); } catch (e) {}
+}
+
+function byId(id){ return document.getElementById(id); }
+
+function clearNode(node){
+  while (node && node.firstChild) { node.removeChild(node.firstChild); }
+}
+
+function esc(s){
+  return String(s === undefined || s === null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function showView(name){
+  byId('viewInput').hidden = (name !== 'input');
+  byId('viewResult').hidden = (name !== 'result');
+  byId('viewFailure').hidden = (name !== 'failure');
+  window.scrollTo(0, 0);
+}
+
+function openSettings(){
+  byId('apiKeyInput').value = '';
+  byId('sessionInput').value = safeGet(K_SESSION, '');
+  var has = safeGet(K_KEY, '');
+  byId('keyState').textContent = has ? 'A key is saved in this browser. Leave this blank to keep it.' : 'No key saved yet.';
+  byId('settingsOverlay').hidden = false;
+}
+
+function closeSettings(){
+  byId('settingsOverlay').hidden = true;
+  byId('apiKeyInput').value = '';
+  refreshKeyHint();
+}
+
+function refreshKeyHint(){
+  var has = safeGet(K_KEY, '');
+  byId('keyHint').textContent = has
+    ? 'Ready. Your key is stored in this browser only.'
+    : 'Add an Anthropic API key in Settings before sorting a situation.';
+  var name = safeGet(K_SESSION, '');
+  byId('sessionTag').textContent = name ? ('Session: ' + name) : '';
+}
+
+function callClaude(text){
+  var key = safeGet(K_KEY, '');
+  if (!key) {
+    return Promise.reject(new Error('No API key saved. Open Settings and add your Anthropic key.'));
+  }
+  return fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'anthropic-version': '2023-06-01',
+      'x-api-key': key,
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: CLAUDE_MODEL,
+      max_tokens: 1600,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: text }]
+    })
+  }).then(function(res){
+    if (!res.ok) {
+      return res.text().then(function(body){
+        var msg = 'The API returned status ' + res.status + '.';
+        if (res.status === 401) { msg = 'That API key was rejected. Check it in Settings.'; }
+        if (res.status === 429) { msg = 'Rate limited by the API. Wait a moment and retry.'; }
+        if (res.status >= 500) { msg = 'The API had a server error. Retry in a moment.'; }
+        throw new Error(msg + (body && body.length < 240 ? ' ' + body : ''));
+      });
+    }
+    return res.json();
+  }).then(function(data){
+    var parts = (data && data.content) ? data.content : [];
+    var out = '';
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i] && parts[i].type === 'text' && parts[i].text) { out += parts[i].text; }
+    }
+    if (!out) { throw new Error('The response came back empty.'); }
+    return out;
+  });
+}
+
+function extractJson(raw){
+  var s = String(raw || '');
+  var start = s.indexOf('{');
+  var end = s.lastIndexOf('}');
+  if (start < 0 || end <= start) { throw new Error('No JSON object was found in the response.'); }
+  return JSON.parse(s.slice(start, end + 1));
+}
+
+function validateShape(obj){
+  if (!obj || typeof obj !== 'object') { throw new Error('The response was not an object.'); }
+  var out = { weights: (obj.weights && typeof obj.weights === 'object') ? obj.weights : null };
+  var total = 0;
+  for (var i = 0; i < BUCKETS.length; i++) {
+    var k = BUCKETS[i].key;
+    var src = Array.isArray(obj[k]) ? obj[k] : [];
+    var clean = [];
+    for (var j = 0; j < src.length; j++) {
+      var it = src[j];
+      if (!it || typeof it !== 'object') { continue; }
+      var item = typeof it.item === 'string' ? it.item.trim() : '';
+      var step = typeof it.step === 'string' ? it.step.trim() : '';
+      if (!item) { continue; }
+      clean.push({ item: item, step: step });
+    }
+    out[k] = clean;
+    total += clean.length;
+  }
+  if (total === 0) { throw new Error('Nothing usable came back. Try describing the situation with a little more detail.'); }
+  return out;
+}
+
+function normalizeWeights(weights, buckets){
+  var raw = [];
+  var i, total = 0;
+  for (i = 0; i < BUCKETS.length; i++) {
+    var v = weights ? Number(weights[BUCKETS[i].key]) : NaN;
+    if (!isFinite(v) || v < 0) { v = 0; }
+    raw.push(v);
+    total += v;
+  }
+  if (total <= 0) {
+    raw = [];
+    total = 0;
+    for (i = 0; i < BUCKETS.length; i++) {
+      var n = (buckets && Array.isArray(buckets[BUCKETS[i].key])) ? buckets[BUCKETS[i].key].length : 0;
+      raw.push(n);
+      total += n;
+    }
+  }
+  var out = {};
+  if (total <= 0) {
+    out[BUCKETS[0].key] = 34;
+    out[BUCKETS[1].key] = 33;
+    out[BUCKETS[2].key] = 33;
+    return out;
+  }
+  var exact = [], floors = [], sum = 0;
+  for (i = 0; i < raw.length; i++) {
+    exact.push(raw[i] * 100 / total);
+    floors.push(Math.floor(exact[i]));
+    sum += floors[i];
+  }
+  var remainder = 100 - sum;
+  var order = [0, 1, 2].sort(function(a, b){
+    var fa = exact[a] - floors[a];
+    var fb = exact[b] - floors[b];
+    if (fb !== fa) { return fb - fa; }
+    return a - b;
+  });
+  for (i = 0; i < remainder; i++) { floors[order[i % 3]] += 1; }
+  for (i = 0; i < BUCKETS.length; i++) { out[BUCKETS[i].key] = floors[i]; }
+  return out;
+}
+
+function displayRadii(weights, R){
+  var FLOOR = 6;
+  var vals = [], i, sum = 0;
+  for (i = 0; i < BUCKETS.length; i++) {
+    var v = Math.max(FLOOR, Number(weights[BUCKETS[i].key]) || 0);
+    vals.push(v);
+    sum += v;
+  }
+  var cum = 0, radii = [];
+  for (i = 0; i < vals.length; i++) {
+    cum += vals[i] * 100 / sum;
+    radii.push(R * Math.sqrt(cum / 100));
+  }
+  return radii;
+}
+
+function renderBullseye(entry){
+  var R = 150, cx = 160, cy = 160;
+  var radii = displayRadii(entry.weights, R);
+  var parts = [];
+  parts.push('<svg class="bullseye" viewBox="0 0 320 320" role="img" aria-label="Weighted bullseye of control">');
+  for (var i = BUCKETS.length - 1; i >= 0; i--) {
+    parts.push('<circle cx="' + cx + '" cy="' + cy + '" r="' + radii[i].toFixed(1) +
+      '" fill="var(' + BUCKETS[i].cssVar + ')"></circle>');
+  }
+  for (var j = 0; j < BUCKETS.length; j++) {
+    var inner = (j === 0) ? 0 : radii[j - 1];
+    var mid = (inner + radii[j]) / 2;
+    var y = (j === 0) ? cy : cy - mid;
+    var size = (j === 0) ? 30 : 16;
+    parts.push('<text x="' + cx + '" y="' + (y + size * 0.35).toFixed(1) +
+      '" text-anchor="middle" font-size="' + size + '">' + entry.weights[BUCKETS[j].key] + '%</text>');
+  }
+  parts.push('</svg>');
+  return '<div class="bullseye-wrap">' + parts.join('') + '</div>';
+}
+
+function renderLegend(entry){
+  var out = ['<div class="legend">'];
+  for (var i = 0; i < BUCKETS.length; i++) {
+    var b = BUCKETS[i];
+    var n = (entry[b.key] || []).length;
+    out.push('<div class="legend-item" style="border-left-color:var(' + b.cssVar + ');">' +
+      '<span class="legend-num" style="color:var(' + b.cssVar + ');">' + entry.weights[b.key] + '%</span>' +
+      '<span class="legend-label">' + b.label + '</span>' +
+      '<span class="legend-count">' + n + (n === 1 ? ' item' : ' items') + '</span>' +
+      '</div>');
+  }
+  out.push('</div>');
+  return out.join('');
+}
+
+function renderCards(entry){
+  var out = ['<div class="cards">'];
+  for (var i = 0; i < BUCKETS.length; i++) {
+    var b = BUCKETS[i];
+    var items = entry[b.key] || [];
+    out.push('<div class="bucket-card" style="border-top-color:var(' + b.cssVar + ');">');
+    out.push('<h3 style="color:var(' + b.cssVar + ');">' + b.label + '</h3>');
+    if (!items.length) {
+      out.push('<p class="legend-count">Nothing landed here.</p>');
+    }
+    for (var j = 0; j < items.length; j++) {
+      var done = !!(entry.done && entry.done[b.key + ':' + j]);
+      out.push('<div class="item' + (done ? ' done' : '') + '" data-bucket="' + b.key + '" data-index="' + j + '">' +
+        '<div class="item-head">' +
+        '<button class="check" type="button" aria-pressed="' + (done ? 'true' : 'false') +
+        '" aria-label="Mark as done"><span class="box"></span></button>' +
+        '<span class="item-text">' + esc(items[j].item) + '</span>' +
+        '</div>' +
+        (items[j].step ? '<p class="step"><b>' + b.suggestion + ':</b> ' + esc(items[j].step) + '</p>' : '') +
+        '</div>');
+    }
+    out.push('</div>');
+  }
+  out.push('</div>');
+  return out.join('');
+}
+
+function renderResult(entry){
+  currentEntry = entry;
+  var root = byId('resultRoot');
+  root.innerHTML =
+    '<p class="situation-echo">' + esc(entry.situation) + '</p>' +
+    renderBullseye(entry) +
+    renderLegend(entry) +
+    renderCards(entry);
+  var checks = root.querySelectorAll('.check');
+  for (var i = 0; i < checks.length; i++) {
+    checks[i].addEventListener('click', function(){
+      var wrap = this.parentNode.parentNode;
+      toggleDone(wrap.getAttribute('data-bucket'), parseInt(wrap.getAttribute('data-index'), 10), wrap, this);
+    });
+  }
+  showView('result');
+}
+
+function toggleDone(bucket, index, wrapEl, btnEl){
+  if (!currentEntry) { return; }
+  if (!currentEntry.done) { currentEntry.done = {}; }
+  var k = bucket + ':' + index;
+  currentEntry.done[k] = !currentEntry.done[k];
+  if (currentEntry.done[k]) {
+    wrapEl.classList.add('done');
+    btnEl.setAttribute('aria-pressed', 'true');
+  } else {
+    wrapEl.classList.remove('done');
+    btnEl.setAttribute('aria-pressed', 'false');
+  }
+  var all = loadEntries();
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].id === currentEntry.id) { all[i].done = currentEntry.done; break; }
+  }
+  saveEntries(all);
+}
+
+function sparkline(values){
+  if (values.length < 2) { return ''; }
+  var w = 120, h = 28, pad = 2;
+  var pts = [];
+  for (var i = 0; i < values.length; i++) {
+    var x = pad + (w - pad * 2) * (i / (values.length - 1));
+    var y = h - pad - (h - pad * 2) * (Math.max(0, Math.min(100, values[i])) / 100);
+    pts.push(x.toFixed(1) + ',' + y.toFixed(1));
+  }
+  return '<svg class="spark" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h +
+    '" aria-hidden="true" focusable="false">' +
+    '<polyline points="' + pts.join(' ') + '" fill="none" stroke="var(--c-control)" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round"></polyline></svg>';
+}
+
+function trendBlock(entries){
+  if (entries.length < 2) { return ''; }
+  var chrono = entries.slice().reverse();
+  var vals = chrono.map(function(e){ return e.weights ? e.weights.isInControl : 0; });
+  var first = vals[0], last = vals[vals.length - 1];
+  var delta = last - first;
+  var sentence;
+  if (delta >= 5) {
+    sentence = 'Across ' + vals.length + ' entries, the share you control has climbed from ' + first + '% to ' + last + '%.';
+  } else if (delta <= -5) {
+    sentence = 'Across ' + vals.length + ' entries, the share you control has fallen from ' + first + '% to ' + last + '%. That is worth noticing, not scolding yourself over.';
+  } else {
+    sentence = 'Across ' + vals.length + ' entries, the share you control has held steady near ' + last + '%.';
+  }
+  return '<div class="trend">' + sparkline(vals) + '<p>' + esc(sentence) + '</p></div>';
+}
+
+function worryBlock(entries){
+  var counts = {}, labels = {}, i, j;
+  for (i = 0; i < entries.length; i++) {
+    var seen = {};
+    var items = entries[i].isNotInControl || [];
+    for (j = 0; j < items.length; j++) {
+      var norm = String(items[j].item).toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+      if (!norm || seen[norm]) { continue; }
+      seen[norm] = true;
+      counts[norm] = (counts[norm] || 0) + 1;
+      labels[norm] = items[j].item;
+    }
+  }
+  var rows = [];
+  for (var key in counts) {
+    if (Object.prototype.hasOwnProperty.call(counts, key) && counts[key] >= 3) {
+      rows.push('<li>' + esc(labels[key]) + ' (' + counts[key] + ' entries)</li>');
+    }
+  }
+  if (!rows.length) { return ''; }
+  return '<div class="worry"><p>These keep coming back, and they are still not yours to control.</p><ul>' +
+    rows.join('') + '</ul></div>';
+}
+
+function renderHistory(){
+  var root = byId('historyRoot');
+  clearNode(root);
+  var entries = loadEntries();
+  entries.sort(function(a, b){ return (b.timestamp || 0) - (a.timestamp || 0); });
+  if (!entries.length) {
+    root.innerHTML = '<div class="card"><p class="lede" style="margin:0;">Nothing saved yet. Your first sorted situation will land here.</p></div>';
+    return;
+  }
+  var html = trendBlock(entries) + worryBlock(entries);
+  for (var i = 0; i < entries.length; i++) {
+    var e = entries[i];
+    var d = new Date(e.timestamp || Date.now());
+    var text = String(e.situation || '');
+    if (text.length > 150) { text = text.slice(0, 150) + '...'; }
+    html += '<div class="entry" data-id="' + esc(e.id) + '" style="margin-top:10px;">' +
+      '<div class="entry-top">' +
+      '<span class="entry-meta">' + esc(d.toLocaleDateString()) + ' at ' + esc(d.toLocaleTimeString([], { hour:'numeric', minute:'2-digit' })) + '</span>' +
+      '<span class="entry-pill">' + (e.weights ? e.weights.isInControl : 0) + '% in your control</span>' +
+      '</div>' +
+      '<p class="entry-text">' + esc(text) + '</p>' +
+      '<div class="row">' +
+      '<button class="btn btn-view" type="button">Open</button>' +
+      '<button class="btn danger btn-del" type="button">Delete</button>' +
+      '</div></div>';
+  }
+  root.innerHTML = html;
+  var rows = root.querySelectorAll('.entry');
+  for (var r = 0; r < rows.length; r++) {
+    (function(row){
+      var id = row.getAttribute('data-id');
+      row.querySelector('.btn-view').addEventListener('click', function(){
+        var all = loadEntries();
+        for (var k = 0; k < all.length; k++) {
+          if (all[k].id === id) { renderResult(all[k]); return; }
+        }
+      });
+      row.querySelector('.btn-del').addEventListener('click', function(){
+        requestDelete(id, row);
+      });
+    })(rows[r]);
+  }
+}
+
+function requestDelete(id, row){
+  var existing = row.querySelector('.confirm');
+  if (existing) { return; }
+  var panel = document.createElement('div');
+  panel.className = 'confirm';
+  panel.innerHTML = '<p>Delete this entry for good?</p>' +
+    '<div class="row"><button class="btn danger" type="button" data-act="yes">Delete it</button>' +
+    '<button class="btn" type="button" data-act="no">Keep it</button></div>';
+  row.appendChild(panel);
+  panel.querySelector('[data-act="yes"]').addEventListener('click', function(){ deleteEntry(id); });
+  panel.querySelector('[data-act="no"]').addEventListener('click', function(){
+    if (panel.parentNode) { panel.parentNode.removeChild(panel); }
+  });
+}
+
+function deleteEntry(id){
+  var all = loadEntries();
+  var kept = [];
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].id !== id) { kept.push(all[i]); }
+  }
+  saveEntries(kept);
+  if (currentEntry && currentEntry.id === id) { currentEntry = null; }
+  renderHistory();
+}
+
+function showFailure(message){
+  byId('failureMessage').textContent = message;
+  byId('situation').value = lastSituation;
+  showView('failure');
+}
+
+function analyze(){
+  var text = byId('situation').value.trim();
+  if (text.length < 12) {
+    byId('keyHint').textContent = 'Give it a sentence or two more before sorting.';
+    return;
+  }
+  lastSituation = text;
+  var btn = byId('btnAnalyze');
+  btn.disabled = true;
+  byId('analyzeNote').hidden = false;
+  callClaude(text).then(function(raw){
+    var parsed = extractJson(raw);
+    var shaped = validateShape(parsed);
+    var entry = {
+      id: 'e' + Date.now() + Math.floor(Math.random() * 1000),
+      situation: text,
+      timestamp: Date.now(),
+      weights: normalizeWeights(shaped.weights, shaped),
+      isInControl: shaped.isInControl,
+      mightInfluence: shaped.mightInfluence,
+      isNotInControl: shaped.isNotInControl,
+      done: {}
+    };
+    var all = loadEntries();
+    all.push(entry);
+    saveEntries(all);
+    renderHistory();
+    renderResult(entry);
+    byId('situation').value = '';
+  }).catch(function(err){
+    showFailure(err && err.message ? err.message : 'Something went wrong on the way to the API.');
+  }).then(function(){
+    btn.disabled = false;
+    byId('analyzeNote').hidden = true;
+    refreshKeyHint();
+  });
+}
+
+byId('btnAnalyze').addEventListener('click', analyze);
+byId('btnBack').addEventListener('click', function(){ renderHistory(); showView('input'); });
+byId('btnFailBack').addEventListener('click', function(){ showView('input'); });
+byId('btnRetry').addEventListener('click', function(){ showView('input'); analyze(); });
+byId('btnSettings').addEventListener('click', openSettings);
+byId('btnCloseSettings').addEventListener('click', closeSettings);
+byId('btnSaveSettings').addEventListener('click', function(){
+  var k = byId('apiKeyInput').value.trim();
+  if (k) { safeSet(K_KEY, k); }
+  safeSet(K_SESSION, byId('sessionInput').value.trim());
+  closeSettings();
+  renderHistory();
+});
+byId('btnClearKey').addEventListener('click', function(){
+  safeRemove(K_KEY);
+  byId('apiKeyInput').value = '';
+  byId('keyState').textContent = 'No key saved yet.';
+  refreshKeyHint();
+});
+byId('settingsOverlay').addEventListener('click', function(ev){
+  if (ev.target === this) { closeSettings(); }
+});
+
+refreshKeyHint();
+renderHistory();
+</script>
+</body>
+</html>
