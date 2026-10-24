@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="manifest" href="https://augustineiacopelli.github.io/appaday/manifests/130.webmanifest">
 <script src="https://augustineiacopelli.github.io/appaday/save.js" defer></script>
+<script src="https://augustineiacopelli.github.io/appaday/keys.js" data-app="130" data-legacy-key="locus.apiKey" data-accent="#D14D72" defer></script>
 <title>Locus of Control | AppADay 130</title>
 <meta name="description" content="Describe a situation and see it sorted into what you control, what you might influence, and what you do not control, with a weighted bullseye and a first step for every piece.">
 <meta property="og:type" content="website">
@@ -301,18 +302,13 @@ input[type=text],input[type=password]{
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
     <h2 id="settingsTitle">Settings</h2>
     <p class="lede" style="margin-bottom:0;">Your key stays in this browser only. It is never sent anywhere except directly to Anthropic.</p>
-    <div class="field">
-      <label class="field-label" for="apiKeyInput">Anthropic API key</label>
-      <input type="password" id="apiKeyInput" autocomplete="off" placeholder="sk-ant-...">
-      <p class="key-state" id="keyState"></p>
-    </div>
+    <div class="field" id="keyMount"><p class="key-state">The key manager is loading. If this stays, check your connection and reload.</p></div>
     <div class="field">
       <label class="field-label" for="sessionInput">Session name</label>
       <input type="text" id="sessionInput" autocomplete="off" placeholder="Fall semester">
     </div>
     <div class="modal-actions">
       <button class="btn primary" id="btnSaveSettings">Save</button>
-      <button class="btn danger" id="btnClearKey">Clear key</button>
       <button class="btn" id="btnCloseSettings">Close</button>
     </div>
   </div>
@@ -327,7 +323,6 @@ input[type=text],input[type=password]{
 <script>
 var CLAUDE_MODEL = 'claude-sonnet-5';
 var API_URL = 'https://api.anthropic.com/v1/messages';
-var K_KEY = 'locus.apiKey';
 var K_SESSION = 'locus.sessionName';
 var K_ENTRIES = 'locus.entries';
 
@@ -409,33 +404,39 @@ function showView(name){
 }
 
 function openSettings(){
-  byId('apiKeyInput').value = '';
+  if (window.AppKeys) { window.AppKeys.mountSettings(byId('keyMount')); }
   byId('sessionInput').value = safeGet(K_SESSION, '');
-  var has = safeGet(K_KEY, '');
-  byId('keyState').textContent = has ? 'A key is saved in this browser. Leave this blank to keep it.' : 'No key saved yet.';
   byId('settingsOverlay').hidden = false;
 }
 
 function closeSettings(){
   byId('settingsOverlay').hidden = true;
-  byId('apiKeyInput').value = '';
   refreshKeyHint();
 }
 
+window.addEventListener('appaday:keychange', function(){ refreshKeyHint(); });
+document.addEventListener('DOMContentLoaded', function(){ refreshKeyHint(); });
+
 function refreshKeyHint(){
-  var has = safeGet(K_KEY, '');
+  var has = !!(window.AppKeys && window.AppKeys.has());
   byId('keyHint').textContent = has
     ? 'Ready. Your key is stored in this browser only.'
-    : 'Add an Anthropic API key in Settings before sorting a situation.';
+    : 'Add your Claude API key with the Settings button before sorting a situation.';
   var name = safeGet(K_SESSION, '');
   byId('sessionTag').textContent = name ? ('Session: ' + name) : '';
 }
 
 function callClaude(text){
-  var key = safeGet(K_KEY, '');
-  if (!key) {
-    return Promise.reject(new Error('No API key saved. Open Settings and add your Anthropic key.'));
+  if (!window.AppKeys) {
+    return Promise.reject(new Error('The key manager did not load. Check your connection and reload.'));
   }
+  return window.AppKeys.get().then(function(key){
+    if (!key) { throw new Error('No API key saved. Add your Claude API key with the Settings button.'); }
+    return callClaudeKeyed(key, text);
+  });
+}
+
+function callClaudeKeyed(key, text){
   return fetch(API_URL, {
     method: 'POST',
     headers: {
@@ -844,17 +845,9 @@ byId('btnRetry').addEventListener('click', function(){ showView('input'); analyz
 byId('btnSettings').addEventListener('click', openSettings);
 byId('btnCloseSettings').addEventListener('click', closeSettings);
 byId('btnSaveSettings').addEventListener('click', function(){
-  var k = byId('apiKeyInput').value.trim();
-  if (k) { safeSet(K_KEY, k); }
   safeSet(K_SESSION, byId('sessionInput').value.trim());
   closeSettings();
   renderHistory();
-});
-byId('btnClearKey').addEventListener('click', function(){
-  safeRemove(K_KEY);
-  byId('apiKeyInput').value = '';
-  byId('keyState').textContent = 'No key saved yet.';
-  refreshKeyHint();
 });
 byId('settingsOverlay').addEventListener('click', function(ev){
   if (ev.target === this) { closeSettings(); }
