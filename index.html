@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="manifest" href="https://augustineiacopelli.github.io/appaday/manifests/130.webmanifest">
 <script src="https://augustineiacopelli.github.io/appaday/save.js" defer></script>
+<script src="https://augustineiacopelli.github.io/appaday/models.js"></script>
 <script src="https://augustineiacopelli.github.io/appaday/keys.js" data-app="130" data-legacy-key="locus.apiKey" data-accent="#D14D72" defer></script>
 <title>Locus of Control | AppADay 130</title>
 <meta name="description" content="Describe a situation and see it sorted into what you control, what you might influence, and what you do not control, with a weighted bullseye and a first step for every piece.">
@@ -321,7 +322,7 @@ input[type=text],input[type=password]{
 </footer>
 
 <script>
-var CLAUDE_MODEL = 'claude-sonnet-5';
+var CLAUDE_MODEL = (window.AppModels ? window.AppModels.id('sonnet') : '');
 var API_URL = 'https://api.anthropic.com/v1/messages';
 var K_SESSION = 'locus.sessionName';
 var K_ENTRIES = 'locus.entries';
@@ -856,15 +857,6 @@ byId('settingsOverlay').addEventListener('click', function(ev){
 refreshKeyHint();
 renderHistory();
 
-async function getModel(tier = 'sonnet') {
-  try {
-    const response = await fetch('../config.json');
-    const config = await response.json();
-    return config.models[tier];
-  } catch {
-    return 'claude-sonnet-5-5';
-  }
-}
 </script>
 </body>
 </html>
