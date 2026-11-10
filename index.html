@@ -448,7 +448,7 @@ function callClaudeKeyed(key, text){
     },
     body: JSON.stringify({
       model: CLAUDE_MODEL,
-      max_tokens: 1600,
+      max_tokens: 1600, thinking: (window.AppModels && window.AppModels.thinking ? window.AppModels.thinking(CLAUDE_MODEL) : undefined),
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: text }]
     })
